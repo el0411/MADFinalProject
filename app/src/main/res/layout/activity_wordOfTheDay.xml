@@ -102,7 +102,7 @@
                     android:inputType="textMultiLine"
                     android:text="Word"
                     android:textSize="20sp" />
-//
+
             </LinearLayout>
 
             <Button
