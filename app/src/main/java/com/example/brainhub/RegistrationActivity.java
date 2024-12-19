@@ -61,21 +61,43 @@ public class RegistrationActivity extends AppCompatActivity {
                 Toast.makeText(RegistrationActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
 
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("USERNAME", enteredUsername);
-                editor.putString("PASSWORD", enteredPassword);
-                editor.putString("FIRST_NAME", enteredFirstName);
-                editor.putString("LAST_NAME", enteredLastName);
-                editor.putString("EMAIL", enteredEmail);
-                editor.apply();
+                String summary = "Username: " + enteredUsername + "\n" +
+                        "First Name: " + enteredFirstName + "\n" +
+                        "Last Name: " + enteredLastName + "\n" +
+                        "Email: " + enteredEmail;
 
 
-                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                new androidx.appcompat.app.AlertDialog.Builder(RegistrationActivity.this)
+                        .setTitle("Confirm Registration Details")
+                        .setMessage(summary)
+                        .setPositiveButton("Confirm", (dialog, which) -> {
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("USERNAME", enteredUsername);
+                            editor.putString("PASSWORD", enteredPassword);
+                            editor.putString("FIRST_NAME", enteredFirstName);
+                            editor.putString("LAST_NAME", enteredLastName);
+                            editor.putString("EMAIL", enteredEmail);
+                            editor.apply();
+
+
+                            Toast.makeText(RegistrationActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+
+
+                            Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .setNegativeButton("Edit", (dialog, which) -> {
+
+                            dialog.dismiss();
+                        })
+                        .show();
             }
         });
+
+
 
 
         btnCamera.setOnClickListener(v -> {

@@ -27,7 +27,7 @@
                     android:id="@+id/ivLogo"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    tools:srcCompat="@drawable/brainhub_logo" />
+                    tools:srcCompat="@drawable/brainhublogo" />
 
                 <TextView
                     android:id="@+id/tvWelcome"

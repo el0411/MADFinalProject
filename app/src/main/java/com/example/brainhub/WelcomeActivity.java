@@ -46,7 +46,7 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    // Decode Base64 string to Bitmap
+
     private Bitmap decodeBase64ToBitmap(String encodedImage) {
         byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);

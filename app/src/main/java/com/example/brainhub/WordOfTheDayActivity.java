@@ -1,5 +1,6 @@
 package com.example.brainhub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +14,9 @@ import java.util.Random;
 public class WordOfTheDayActivity extends AppCompatActivity {
 
     TextView tvWord, tvGrammar, tvMeaning;
-    Button btnContinue;
+    Button btnCreatePost, btnHomePage;
 
-    // Create a list of words, their parts of speech, and meanings
+
     ArrayList<Word> wordsList = new ArrayList<>();
 
     @Override
@@ -23,13 +24,13 @@ public class WordOfTheDayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wordoftheday);
 
-        // Initialize views
+
         tvWord = findViewById(R.id.tvWord);
         tvGrammar = findViewById(R.id.tvGrammar);
         tvMeaning = findViewById(R.id.tvMeaning);
-        btnContinue = findViewById(R.id.btnContinue);
+        btnCreatePost = findViewById(R.id.btnCreatePost);
+        btnHomePage = findViewById(R.id.btnHomePage);
 
-        // Populate the word list
         wordsList.add(new Word("Cunning", "Adjective", "Having the ability to achieve one's goals by using cleverness, deceit, or trickery. It often involves manipulating situations or people through shrewd tactics to outsmart others, sometimes with an element of concealment or subtlety."));
         wordsList.add(new Word("Devious", "Adjective", "Characterized by the use of underhanded or dishonest tactics to achieve a particular goal. A devious person often employs secretive, indirect methods that are designed to mislead or manipulate others without them realizing their true intent."));
         wordsList.add(new Word("Calculating", "Adjective", "Marked by careful and deliberate planning, often with a focus on achieving personal gain. A calculating person tends to make decisions based on what will benefit them most, frequently considering the costs and consequences with cold logic and without concern for morality or ethics."));
@@ -50,29 +51,33 @@ public class WordOfTheDayActivity extends AppCompatActivity {
         wordsList.add(new Word("Deceitful", "Adjective", "Marked by a tendency to mislead, misrepresent, or conceal the truth to gain an advantage. A deceitful person uses falsehoods or omissions to manipulate others or to cover up their true intentions or actions."));
         wordsList.add(new Word("Subversive", "Adjective", "Seeking or intending to undermine the power, authority, or system in place, often through covert or deceptive means. A subversive individual works behind the scenes to destabilize or disrupt existing norms or authorities to achieve their personal or ideological goals."));
 
-
-        // Set random word on activity start
         setRandomWord();
 
-        // Handle button click (optional)
-        btnContinue.setOnClickListener(v -> {
-            // You can implement functionality here if needed
+
+        btnCreatePost.setOnClickListener(v -> {
+            Intent intent = new Intent(WordOfTheDayActivity.this, CreatePost.class);
+            startActivity(intent);
+        });
+
+        btnHomePage.setOnClickListener(v->{
+            Intent intent = new Intent(WordOfTheDayActivity.this, HomeActivity.class);
+            startActivity(intent);
         });
     }
 
-    // Method to set a random word
+
     private void setRandomWord() {
         Random random = new Random();
         int randomIndex = random.nextInt(wordsList.size());
         Word selectedWord = wordsList.get(randomIndex);
 
-        // Display the selected word, its grammar, and meaning
+
         tvWord.setText(selectedWord.getWord());
         tvGrammar.setText(selectedWord.getGrammar());
         tvMeaning.setText(selectedWord.getMeaning());
     }
 
-    // Word class to hold the word data
+
     static class Word {
         private String word;
         private String grammar;

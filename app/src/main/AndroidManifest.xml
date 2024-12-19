@@ -9,9 +9,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/brainhub_logo"
+        android:icon="@drawable/brainhublogo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/brainhub_logo"
+        android:roundIcon="@drawable/brainhublogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.BrainHub"
         tools:targetApi="31">
@@ -39,6 +39,8 @@
         <activity android:name=".Welcome2Activity" />
         <activity android:name=".WordOfTheDayActivity" />
         <activity android:name=".RegistrationActivity" />
+        <activity android:name=".HomeActivity" />
+
 
     </application>
 
