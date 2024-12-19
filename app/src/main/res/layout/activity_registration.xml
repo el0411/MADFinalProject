@@ -25,7 +25,7 @@
         <ImageView
             android:id="@+id/iv1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             app:srcCompat="@mipmap/ic_launcher" />
 
         <Button
