@@ -30,7 +30,7 @@
             android:layout_marginVertical="15dp"
             android:text="LOGIN"
             android:textAlignment="center"
-            android:textColor="@color/Yellow"
+            android:textColor="@color/yellow"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -71,9 +71,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="140dp"
             android:layout_marginVertical="10dp"
-            android:backgroundTint="@color/Yellow"
+            android:backgroundTint="@color/yellow"
             android:text="SUBMIT"
-            android:textColorLink="@color/Yellow"
+            android:textColorLink="@color/yellow"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -84,6 +84,6 @@
             android:layout_marginHorizontal="15dp"
             android:text="Click here to Register"
             android:textAlignment="center"
-            android:textColor="@color/Yellow" />
+            android:textColor="@color/yellow" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

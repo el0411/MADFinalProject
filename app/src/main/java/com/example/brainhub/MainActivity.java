@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String DEFAULT_USERNAME = "User1";
+    private static final String DEFAULT_USERNAME = "User";
     private static final String DEFAULT_PASSWORD = "123";
 
     @Override

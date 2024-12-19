@@ -24,7 +24,7 @@
             android:layout_marginVertical="40dp"
             android:layout_marginLeft="60dp"
             android:text="BRAINHUB"
-            android:textColor="#D8BD2C"
+            android:textColor="@color/yellow"
             android:textSize="34sp"
             android:textStyle="bold" />
 

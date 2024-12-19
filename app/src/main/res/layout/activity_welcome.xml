@@ -36,7 +36,7 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Welcome"
-                    android:textColor="@color/Yellow"
+                    android:textColor="@color/yellow"
                     android:textSize="30dp" />
 
                 <ImageView
@@ -54,16 +54,16 @@
                     android:layout_height="wrap_content"
                     android:text="Enjoy Learning!"
                     android:textAlignment="center"
-                    android:textColor="@color/Yellow"
+                    android:textColor="@color/yellow"
                     android:textSize="16sp" />
 
                 <Button
-                    android:id="@+id/btnContinue"
+                    android:id="@+id/btnNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="100dp"
                     android:layout_marginTop="16dp"
-                    android:backgroundTint="@color/Yellow"
+                    android:backgroundTint="@color/yellow"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="Next"
                     android:textSize="16sp"

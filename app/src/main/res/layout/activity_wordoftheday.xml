@@ -98,8 +98,8 @@
                     android:layout_marginHorizontal="30dp"
                     android:ems="10"
                     android:gravity="start|top"
+                    android:hint="What's on your mind?"
                     android:inputType="textMultiLine"
-                    android:text="Word"
                     android:textSize="20sp" />
 
             </LinearLayout>

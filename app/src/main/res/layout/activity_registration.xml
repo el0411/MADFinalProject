@@ -17,7 +17,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="Registration Account"
-            android:textColor="@color/Yellow"
+            android:textColor="@color/yellow"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
             android:layout_marginHorizontal="100dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/Yellow"
+            android:backgroundTint="@color/yellow"
             android:gravity="center_horizontal|center_vertical"
             android:text="TAKE PHOTO"
             android:textSize="16sp"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="100dp"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/Yellow"
+            android:backgroundTint="@color/yellow"
             android:gravity="center_horizontal|center_vertical"
             android:text="SUBMIT"
             android:textSize="16sp"

@@ -30,7 +30,7 @@
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="WELCOME TO BRAINHUB!"
-                android:textColor="@color/Yellow"
+                android:textColor="@color/yellow"
                 android:textSize="30dp"
                 android:textStyle="bold" />
 
@@ -221,7 +221,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="100dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/Yellow"
+                android:backgroundTint="@color/yellow"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Continue"
                 android:textSize="16sp"
