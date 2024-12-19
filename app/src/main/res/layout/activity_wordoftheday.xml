@@ -25,7 +25,7 @@
                 android:layout_marginTop="16dp"
                 android:text="BRAINHUB"
                 android:textAlignment="textStart"
-                android:textColor="@color/Yellow"
+                android:textColor="@color/yellow"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -44,11 +44,11 @@
 
                     <ImageView
                         android:id="@+id/ivLogoPic1"
-                        android:layout_width="5dp"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_weight="1"
-                        tools:srcCompat="@drawable/brainhub_logo" />
+                        android:src="@drawable/brainhub_logo" />
 
                     <TextView
                         android:id="@+id/tvContent1"
@@ -68,7 +68,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Word of the Day:"
                     android:textAlignment="textStart"
-                    android:textColor="@color/Yellow"
+                    android:textColor="@color/yellow"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                     android:layout_marginStart="30dp"
                     android:text="blank"
                     android:textAlignment="textStart"
-                    android:textColor="@color/Yellow"
+                    android:textColor="@color/yellow"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="30dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:text="Objective." />
 
                 <EditText
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="100dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/Yellow"
+                android:backgroundTint="@color/yellow"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="CREATE A POST"
                 android:textSize="16sp"
@@ -121,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="100dp"
-                android:backgroundTint="@color/Yellow"
+                android:backgroundTint="@color/yellow"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Proceed to Home Page"
                 android:textSize="14sp"
