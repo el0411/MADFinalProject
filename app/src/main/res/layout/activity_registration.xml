@@ -87,7 +87,7 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/yellow"
             android:gravity="center_horizontal|center_vertical"
-            android:text="SUBMIT"
+            android:text="Register"
             android:textSize="16sp"
             android:textStyle="bold" />
 

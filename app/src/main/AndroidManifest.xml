@@ -35,6 +35,7 @@
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".Welcome2Activity" />
         <activity android:name=".WordOfTheDayActivity" />
+        <activity android:name=".RegistrationActivity" />
 
     </application>
 
