@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,25 +26,24 @@
                 android:text="BRAINHUB"
                 android:textAlignment="textStart"
                 android:textColor="@color/Yellow"
-                android:textSize="30dp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#4DA6A6A6"
-                android:backgroundTint="#A6A6A6"
+                android:layout_height="wrap_content"
+                android:background="#3CA6A6A6"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingVertical="20dp">
 
                     <ImageView
-                        android:id="@+id/ivPic1"
+                        android:id="@+id/ivLogoPic1"
                         android:layout_width="5dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="20dp"
@@ -62,7 +61,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/welcomeMessage"
+                    android:id="@+id/txtWordOfTheDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -70,18 +69,18 @@
                     android:text="Word of the Day:"
                     android:textAlignment="textStart"
                     android:textColor="@color/Yellow"
-                    android:textSize="30dp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvWordOfTheDay"
+                    android:id="@+id/tvWord"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="blank"
                     android:textAlignment="textStart"
                     android:textColor="@color/Yellow"
-                    android:textSize="30dp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -93,7 +92,7 @@
                     android:text="Objective." />
 
                 <EditText
-                    android:id="@+id/editTextTextMultiLine2"
+                    android:id="@+id/txtPostContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
@@ -102,11 +101,11 @@
                     android:inputType="textMultiLine"
                     android:text="Word"
                     android:textSize="20sp" />
-//
+
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnCreatePost"
+                android:id="@+id/btnContinue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="100dp"
@@ -118,7 +117,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/btnCreatePost2"
+                android:id="@+id/btnHomePage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="100dp"
