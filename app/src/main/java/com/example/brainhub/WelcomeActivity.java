@@ -30,14 +30,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
         tvWelcome.setText("Welcome, " + username + "!");
 
-        // Retrieve the Base64 string from SharedPreferences
+
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String encodedImage = sharedPreferences.getString("USER_PHOTO", null);
 
         if (encodedImage != null) {
-            // Decode the Base64 string to Bitmap
+
             Bitmap photo = decodeBase64ToBitmap(encodedImage);
-            ivPhoto2.setImageBitmap(photo);  // Set the Bitmap to ImageView
+            ivPhoto2.setImageBitmap(photo);
         }
 
         btnNext.setOnClickListener(v -> {
