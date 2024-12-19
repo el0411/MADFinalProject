@@ -29,19 +29,18 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         tvRegister = findViewById(R.id.tvRegister);
 
-        // Handle login functionality
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String enteredUsername = txtUserName.getText().toString().trim();
                 String enteredPassword = txtPassword.getText().toString().trim();
 
-                // Retrieve saved user credentials from SharedPreferences
+
                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 String savedUsername = sharedPreferences.getString("USERNAME", "");
                 String savedPassword = sharedPreferences.getString("PASSWORD", "");
 
-                // Validate login credentials
+
                 if (enteredUsername.equals(savedUsername) && enteredPassword.equals(savedPassword)) {
                     Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
                     intent.putExtra("USERNAME", enteredUsername);
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Handle registration redirection with alert
         tvRegister.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Redirecting to Registration")
@@ -60,12 +58,11 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // Proceed to Registration Activity after confirmation
                             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
                             startActivity(intent);
                         }
                     })
-                    .setNegativeButton("Cancel", null)  // Cancel action, closes the dialog
+                    .setNegativeButton("Cancel", null)
                     .show();
         });
     }
