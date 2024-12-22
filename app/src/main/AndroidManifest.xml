@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BrainHub"
         tools:targetApi="31">
+        <activity
+            android:name=".SavedPostPage"
+            android:exported="false" />
         <activity
             android:name=".Profile"
             android:exported="false" />
@@ -34,14 +40,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".Welcome2Activity" />
         <activity android:name=".WordOfTheDayActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".HomeActivity" />
-
-
     </application>
 
 </manifest>
