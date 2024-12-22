@@ -25,15 +25,15 @@
             android:textSize="34sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginEnd="20dp"
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="68dp"
+            android:layout_height="36dp"
+            android:layout_marginVertical="40px"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="50dp"
             android:layout_weight="1"
-            android:text="x" />
+            app:srcCompat="@android:drawable/ic_delete" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,27 +68,75 @@
             android:text="Post" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/titleBar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:inputType="text"
-        android:text="Title" />
+        android:layout_height="518dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/body"
+        <EditText
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Title"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="384dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Body"
+            android:textAlignment="viewStart" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Body"
-        android:textAlignment="viewStart" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivHomeBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+        <ImageView
+            android:id="@+id/ivSavedBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+        <ImageView
+            android:id="@+id/ivCreateBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+        <ImageView
+            android:id="@+id/ivNotifications"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+        <ImageView
+            android:id="@+id/ivProfileBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
+    </LinearLayout>
 
 </LinearLayout>

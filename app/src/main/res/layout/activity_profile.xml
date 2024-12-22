@@ -64,7 +64,7 @@
         android:orientation="vertical"
         android:paddingTop="30dp"
         android:paddingStart="30dp"
-        android android:paddingEnd="30dp">
+        android:paddingEnd="30dp">
 
         <TextView
             android:id="@+id/tvLabel2"
@@ -145,8 +145,7 @@
                 android:layout_weight="1"
                 android:text="UPDATE"
                 android:backgroundTint="#FFFFFF"
-                android:strokeWidth="20dp"
-                android:strokeColor="@color/black"
+
                 android:textColor="#D8BD2C" />
 
             <Button
