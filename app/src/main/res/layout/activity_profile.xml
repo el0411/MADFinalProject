@@ -170,6 +170,7 @@
         android:weightSum="5">
 
         <ImageView
+            android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -182,6 +183,7 @@
             android:src="@drawable/icon_home" />
 
         <ImageView
+            android:id="@+id/navSave"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -194,6 +196,7 @@
             android:src="@drawable/icon_saved" />
 
         <ImageView
+            android:id="@+id/navPost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -206,6 +209,7 @@
             android:src="@drawable/icon_create" />
 
         <ImageView
+            android:id="@+id/navNotif"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -218,6 +222,7 @@
             android:src="@drawable/icon_notifications" />
 
         <ImageView
+            android:id="@+id/navProf"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

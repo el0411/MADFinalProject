@@ -60,7 +60,7 @@ public class WordOfTheDayActivity extends AppCompatActivity {
         });
 
         btnHomePage.setOnClickListener(v->{
-            Intent intent = new Intent(WordOfTheDayActivity.this, HomeActivity.class);
+            Intent intent = new Intent(WordOfTheDayActivity.this, FeedActivity.class);
             startActivity(intent);
         });
     }
