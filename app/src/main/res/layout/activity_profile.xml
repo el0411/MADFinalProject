@@ -160,43 +160,74 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
         <ImageView
-            android:id="@+id/ivHomeBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            android:adjustViewBounds="true"
+            android:contentDescription="Home"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_home" />
 
         <ImageView
-            android:id="@+id/ivSavedBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            android:adjustViewBounds="true"
+            android:contentDescription="Saved"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_saved" />
 
         <ImageView
-            android:id="@+id/ivCreateBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            android:adjustViewBounds="true"
+            android:contentDescription="Create"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_create" />
 
         <ImageView
-            android:id="@+id/ivNotifications"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            android:adjustViewBounds="true"
+            android:contentDescription="Notifications"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_notifications" />
 
         <ImageView
-            android:id="@+id/ivProfileBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            android:adjustViewBounds="true"
+            android:contentDescription="Profile"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_profile" />
     </LinearLayout>
+
 </LinearLayout>
