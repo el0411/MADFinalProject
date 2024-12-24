@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,8 +40,9 @@ public class CreatePost extends AppCompatActivity {
         deleteBtn = findViewById(R.id.imageButton);
         username = findViewById(R.id.username);
         imgView = findViewById(R.id.imageView5);
+
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String currentUser = sharedPreferences.getString("USERNAME","");
+        String currentUser = sharedPreferences.getString("USERNAME", "");
         username.setText(currentUser);
 
         String encodedImage = sharedPreferences.getString("USER_PHOTO", null);
@@ -62,12 +62,12 @@ public class CreatePost extends AppCompatActivity {
         String content = body.getText().toString().trim();
 
         if (validatePost(title, content)) {
-            Intent intent = new Intent(this, FeedActivity.class);
-            intent.putExtra("title", title);
-            intent.putExtra("content", content);
-            intent.putExtra("username", username.getText().toString());
-            intent.putExtra("timestamp", System.currentTimeMillis());
-            startActivity(intent);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("title", title);
+            resultIntent.putExtra("content", content);
+            resultIntent.putExtra("username", username.getText().toString());
+            resultIntent.putExtra("timestamp", System.currentTimeMillis());
+            setResult(RESULT_OK, resultIntent);
             finish();
         }
     }
