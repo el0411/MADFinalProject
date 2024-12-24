@@ -18,9 +18,9 @@ import android.util.TypedValue;
 
 public class FeedActivity extends AppCompatActivity {
     private LinearLayout postsContainer;
-    private ImageView createBtn;
     private TextView emptyStateText;
     private ActivityResultLauncher<Intent> createPostLauncher;
+    private NavigationHelper navigationHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +32,14 @@ public class FeedActivity extends AppCompatActivity {
 
         initializeViews();
         setupCreatePostLauncher();
-        setupClickListeners();
-        loadSavedPosts();
-
-        // Handle incoming post data if any
+        setupNavigation();
+        refreshFeed();
         handleIncomingIntent(getIntent());
+    }
+
+    private void setupNavigation() {
+        navigationHelper = new NavigationHelper(this, createPostLauncher);
+        navigationHelper.setupNavigation();
     }
 
     private void handleIncomingIntent(Intent intent) {
@@ -46,18 +49,22 @@ public class FeedActivity extends AppCompatActivity {
             String username = intent.getStringExtra("username");
             long timestamp = intent.getLongExtra("timestamp", System.currentTimeMillis());
             hideEmptyState();
-            addPostToFeed(username, title, content, timestamp);
+            savePost(username, title, content, timestamp);
+            refreshFeed();
         }
+    }
+
+    private void refreshFeed() {
+        postsContainer.removeAllViews();
+        loadSavedPosts();
     }
 
     private void initializeViews() {
         postsContainer = findViewById(R.id.postsContainer);
-        createBtn = findViewById(R.id.navPost);  // Changed from ivCreateBtn to navPost
         emptyStateText = new TextView(this);
         emptyStateText.setText("No posts yet. Be the first to share!");
         emptyStateText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-        // Clear example post content first
         if (postsContainer != null) {
             postsContainer.removeAllViews();
             postsContainer.addView(emptyStateText);
@@ -65,18 +72,9 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        createBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CreatePost.class);
-            createPostLauncher.launch(intent);
-        });
-
-        ImageView homeBtn = findViewById(R.id.navHome);  // Changed from ivHomeBtn to navHome
+        ImageView homeBtn = findViewById(R.id.navHome);
         if (homeBtn != null) {
-            homeBtn.setOnClickListener(v -> {
-                postsContainer.removeAllViews();
-                postsContainer.addView(emptyStateText);
-                loadSavedPosts();
-            });
+            homeBtn.setOnClickListener(v -> refreshFeed());
         }
     }
 
@@ -86,7 +84,6 @@ public class FeedActivity extends AppCompatActivity {
 
         if (postCount > 0) {
             hideEmptyState();
-
             for (int i = postCount - 1; i >= 0; i--) {
                 String title = postsPrefs.getString("post_" + i + "_title", "");
                 String content = postsPrefs.getString("post_" + i + "_content", "");
@@ -94,7 +91,7 @@ public class FeedActivity extends AppCompatActivity {
                 long timestamp = postsPrefs.getLong("post_" + i + "_timestamp", 0);
 
                 if (!title.isEmpty() && !content.isEmpty()) {
-                    addPostToFeed(username, title, content, timestamp);
+                    addPostToFeed(username, title, content, timestamp, false);
                 }
             }
         } else {
@@ -112,7 +109,8 @@ public class FeedActivity extends AppCompatActivity {
                         String username = result.getData().getStringExtra("username");
                         long timestamp = result.getData().getLongExtra("timestamp", System.currentTimeMillis());
                         hideEmptyState();
-                        addPostToFeed(username, title, content, timestamp);
+                        savePost(username, title, content, timestamp);
+                        refreshFeed();
                     }
                 }
         );
@@ -126,95 +124,7 @@ public class FeedActivity extends AppCompatActivity {
         emptyStateText.setVisibility(View.GONE);
     }
 
-    private void addPostToFeed(String username, String title, String content, long timestamp) {
-        LinearLayout postView = new LinearLayout(this);
-        postView.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams postParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        postParams.setMargins(0, 0, 0, dpToPx(15));
-        postView.setLayoutParams(postParams);
-
-        // User info layout
-        LinearLayout userInfoLayout = new LinearLayout(this);
-        userInfoLayout.setOrientation(LinearLayout.HORIZONTAL);
-        userInfoLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
-        userInfoLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-
-        // Profile picture
-        ImageView profilePic = new ImageView(this);
-        LinearLayout.LayoutParams profilePicParams = new LinearLayout.LayoutParams(dpToPx(40), dpToPx(40));
-        profilePicParams.setMargins(dpToPx(20), 0, 0, 0);
-        profilePic.setLayoutParams(profilePicParams);
-
-        // Username
-        TextView usernameView = new TextView(this);
-        LinearLayout.LayoutParams usernameParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        usernameParams.setMargins(dpToPx(10), 0, dpToPx(10), 0);
-        usernameView.setLayoutParams(usernameParams);
-        usernameView.setText(username);
-
-        // Time
-        TextView timeView = new TextView(this);
-        timeView.setText(getTimeAgo(timestamp));
-
-        // Content container
-        LinearLayout contentContainer = new LinearLayout(this);
-        contentContainer.setOrientation(LinearLayout.VERTICAL);
-        contentContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-
-        // Title
-        TextView titleView = new TextView(this);
-        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        titleParams.setMargins(dpToPx(20), dpToPx(5), dpToPx(20), dpToPx(5));
-        titleView.setLayoutParams(titleParams);
-        titleView.setText(title);
-        titleView.setTypeface(null, android.graphics.Typeface.BOLD);
-
-        // Content
-        TextView contentView = new TextView(this);
-        LinearLayout.LayoutParams contentParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        contentParams.setMargins(dpToPx(20), 0, dpToPx(20), 0);
-        contentView.setLayoutParams(contentParams);
-        contentView.setText(content);
-
-        // Set profile picture from SharedPreferences
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String encodedImage = prefs.getString("USER_PHOTO", null);
-        if (encodedImage != null) {
-            byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
-            Bitmap photo = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-            profilePic.setImageBitmap(photo);
-        }
-
-        // Assemble the post view
-        userInfoLayout.addView(profilePic);
-        userInfoLayout.addView(usernameView);
-        userInfoLayout.addView(timeView);
-
-        contentContainer.addView(titleView);
-        contentContainer.addView(contentView);
-
-        postView.addView(userInfoLayout);
-        postView.addView(contentContainer);
-
-        // Save post to SharedPreferences
+    private void savePost(String username, String title, String content, long timestamp) {
         SharedPreferences postsPrefs = getSharedPreferences("PostsPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = postsPrefs.edit();
         int postCount = postsPrefs.getInt("postCount", 0);
@@ -225,8 +135,91 @@ public class FeedActivity extends AppCompatActivity {
         editor.putLong("post_" + postCount + "_timestamp", timestamp);
         editor.putInt("postCount", postCount + 1);
         editor.apply();
+    }
 
-        // Add the post to the top of the feed
+    private void addPostToFeed(String username, String title, String content, long timestamp, boolean save) {
+        LinearLayout postView = new LinearLayout(this);
+        postView.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams postParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        postParams.setMargins(0, 0, 0, dpToPx(15));
+        postView.setLayoutParams(postParams);
+
+        LinearLayout userInfoLayout = new LinearLayout(this);
+        userInfoLayout.setOrientation(LinearLayout.HORIZONTAL);
+        userInfoLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        userInfoLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+
+        ImageView profilePic = new ImageView(this);
+        LinearLayout.LayoutParams profilePicParams = new LinearLayout.LayoutParams(dpToPx(40), dpToPx(40));
+        profilePicParams.setMargins(dpToPx(20), 0, 0, 0);
+        profilePic.setLayoutParams(profilePicParams);
+
+        TextView usernameView = new TextView(this);
+        LinearLayout.LayoutParams usernameParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        usernameParams.setMargins(dpToPx(10), 0, dpToPx(10), 0);
+        usernameView.setLayoutParams(usernameParams);
+        usernameView.setText(username);
+
+        TextView timeView = new TextView(this);
+        timeView.setText(getTimeAgo(timestamp));
+
+        LinearLayout contentContainer = new LinearLayout(this);
+        contentContainer.setOrientation(LinearLayout.VERTICAL);
+        contentContainer.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+
+        TextView titleView = new TextView(this);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.setMargins(dpToPx(20), dpToPx(5), dpToPx(20), dpToPx(5));
+        titleView.setLayoutParams(titleParams);
+        titleView.setText(title);
+        titleView.setTypeface(null, android.graphics.Typeface.BOLD);
+
+        TextView contentView = new TextView(this);
+        LinearLayout.LayoutParams contentParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        contentParams.setMargins(dpToPx(20), 0, dpToPx(20), 0);
+        contentView.setLayoutParams(contentParams);
+        contentView.setText(content);
+
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String encodedImage = prefs.getString("USER_PHOTO", null);
+        if (encodedImage != null) {
+            byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap photo = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            profilePic.setImageBitmap(photo);
+        }
+
+        userInfoLayout.addView(profilePic);
+        userInfoLayout.addView(usernameView);
+        userInfoLayout.addView(timeView);
+
+        contentContainer.addView(titleView);
+        contentContainer.addView(contentView);
+
+        postView.addView(userInfoLayout);
+        postView.addView(contentContainer);
+
+        if (save) {
+            savePost(username, title, content, timestamp);
+        }
+
         postsContainer.addView(postView, 0);
     }
 

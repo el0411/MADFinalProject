@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.ByteArrayOutputStream;
 
@@ -21,13 +23,35 @@ public class Profile extends AppCompatActivity {
     private Button updBtn, logoutBtn;
     private ImageView profilePic;
     private TextView currentUser;
+    private SharedPreferences prefs;
+    private NavigationHelper navigationHelper;
+
+    // Create ActivityResultLauncher for handling navigation results
+    private final ActivityResultLauncher<Intent> createPostLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // Handle any result from CreatePost activity if needed
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+        // Check if user is logged in
+        if (!prefs.getBoolean("IS_LOGGED_IN", false)) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
         initializeViews();
         loadUserData();
+        setupNavigation();
         setupClickListeners();
     }
 
@@ -42,8 +66,12 @@ public class Profile extends AppCompatActivity {
         currentUser = findViewById(R.id.currentUser);
     }
 
+    private void setupNavigation() {
+        navigationHelper = new NavigationHelper(this, createPostLauncher);
+        navigationHelper.setupNavigation();
+    }
+
     private void loadUserData() {
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         editUsername.setText(prefs.getString("USERNAME", ""));
         editFName.setText(prefs.getString("FIRST_NAME", ""));
         editLName.setText(prefs.getString("LAST_NAME", ""));
@@ -64,27 +92,28 @@ public class Profile extends AppCompatActivity {
         profilePic.setOnClickListener(v -> openCamera());
     }
 
+    // Camera handling with ActivityResultLauncher
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Bundle extras = result.getData().getExtras();
+                    if (extras != null) {
+                        Bitmap photo = (Bitmap) extras.get("data");
+                        profilePic.setImageBitmap(photo);
+
+                        String encodedImage = encodeBitmapToBase64(photo);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("USER_PHOTO", encodedImage);
+                        editor.apply();
+                    }
+                }
+            }
+    );
+
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap photo = (Bitmap) extras.get("data");
-                profilePic.setImageBitmap(photo);
-
-                String encodedImage = encodeBitmapToBase64(photo);
-                SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
-                editor.putString("USER_PHOTO", encodedImage);
-                editor.apply();
-            }
-        }
+        cameraLauncher.launch(cameraIntent);
     }
 
     private String encodeBitmapToBase64(Bitmap bitmap) {
@@ -101,11 +130,14 @@ public class Profile extends AppCompatActivity {
         String email = editEmail.getText().toString().trim();
 
         if (validateInputs(username, firstName, lastName, email)) {
-            SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+            String currentPassword = prefs.getString("PASSWORD", "");
+
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putString("USERNAME", username);
             editor.putString("FIRST_NAME", firstName);
             editor.putString("LAST_NAME", lastName);
             editor.putString("EMAIL", email);
+            editor.putString("PASSWORD", currentPassword);
             editor.apply();
 
             Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
@@ -122,10 +154,13 @@ public class Profile extends AppCompatActivity {
     }
 
     private void logout() {
-        SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
-        editor.clear();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("IS_LOGGED_IN", false);  // Only update login status, preserve user data
         editor.apply();
-        startActivity(new Intent(this, MainActivity.class));
-        finishAffinity();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

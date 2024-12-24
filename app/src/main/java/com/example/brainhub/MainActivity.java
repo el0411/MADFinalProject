@@ -29,22 +29,33 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         tvRegister = findViewById(R.id.tvRegister);
 
+        // Check if user is already logged in
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("IS_LOGGED_IN", false);
+        if (isLoggedIn) {
+            startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+            finish();
+        }
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String enteredUsername = txtUserName.getText().toString().trim();
                 String enteredPassword = txtPassword.getText().toString().trim();
 
-
                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 String savedUsername = sharedPreferences.getString("USERNAME", "");
                 String savedPassword = sharedPreferences.getString("PASSWORD", "");
 
-
                 if (enteredUsername.equals(savedUsername) && enteredPassword.equals(savedPassword)) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("IS_LOGGED_IN", true);
+                    editor.apply();
+
                     Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
                     intent.putExtra("USERNAME", enteredUsername);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
                 }

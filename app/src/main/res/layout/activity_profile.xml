@@ -60,10 +60,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="431dp"
+        android:layout_height="449dp"
         android:orientation="vertical"
-        android:paddingTop="30dp"
         android:paddingStart="30dp"
+        android:paddingTop="30dp"
         android:paddingEnd="30dp">
 
         <TextView
@@ -143,8 +143,8 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:text="UPDATE"
                 android:backgroundTint="#FFFFFF"
+                android:text="UPDATE"
 
                 android:textColor="#D8BD2C" />
 
@@ -152,9 +152,9 @@
                 android:id="@+id/logoutBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="40dp"
+                android:layout_weight="1"
                 android:text="LOGOUT" />
         </LinearLayout>
     </LinearLayout>
@@ -162,7 +162,7 @@
     <LinearLayout
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
         android:gravity="center"
