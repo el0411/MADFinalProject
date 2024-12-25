@@ -40,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".FeedActivity" android:exported="true" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".Welcome2Activity" />
         <activity android:name=".WordOfTheDayActivity" />

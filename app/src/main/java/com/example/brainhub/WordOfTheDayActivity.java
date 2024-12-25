@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -15,21 +17,60 @@ public class WordOfTheDayActivity extends AppCompatActivity {
 
     TextView tvWord, tvGrammar, tvMeaning;
     Button btnCreatePost, btnHomePage;
-
-
     ArrayList<Word> wordsList = new ArrayList<>();
+    private ActivityResultLauncher<Intent> createPostLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wordoftheday);
 
+        initializeViews();
+        setupCreatePostLauncher();
+        initializeWordsList();
+        setRandomWord();
+        setupClickListeners();
+    }
 
+    private void initializeViews() {
         tvWord = findViewById(R.id.tvWord);
         tvGrammar = findViewById(R.id.tvGrammar);
         tvMeaning = findViewById(R.id.tvMeaning);
         btnCreatePost = findViewById(R.id.btnCreatePost);
         btnHomePage = findViewById(R.id.btnHomePage);
+    }
+
+    private void setupCreatePostLauncher() {
+        createPostLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        // Forward the post data to FeedActivity
+                        Intent feedIntent = new Intent(this, FeedActivity.class);
+                        feedIntent.putExtras(result.getData());
+                        feedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(feedIntent);
+                        finish();
+                    }
+                }
+        );
+    }
+
+    private void setupClickListeners() {
+        btnCreatePost.setOnClickListener(v -> {
+            Intent intent = new Intent(WordOfTheDayActivity.this, CreatePost.class);
+            createPostLauncher.launch(intent);
+        });
+
+        btnHomePage.setOnClickListener(v -> {
+            Intent intent = new Intent(WordOfTheDayActivity.this, FeedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        });
+    }
+
+    private void initializeWordsList() {
 
         wordsList.add(new Word("Cunning", "Adjective", "Having the ability to achieve one's goals by using cleverness, deceit, or trickery. It often involves manipulating situations or people through shrewd tactics to outsmart others, sometimes with an element of concealment or subtlety."));
         wordsList.add(new Word("Devious", "Adjective", "Characterized by the use of underhanded or dishonest tactics to achieve a particular goal. A devious person often employs secretive, indirect methods that are designed to mislead or manipulate others without them realizing their true intent."));
@@ -50,33 +91,17 @@ public class WordOfTheDayActivity extends AppCompatActivity {
         wordsList.add(new Word("Underhanded", "Adjective", "Characterized by dishonest, unfair, or deceitful actions, especially in a secretive or concealed manner. Underhanded actions are typically intended to gain an unfair advantage or to achieve goals without the knowledge of others involved."));
         wordsList.add(new Word("Deceitful", "Adjective", "Marked by a tendency to mislead, misrepresent, or conceal the truth to gain an advantage. A deceitful person uses falsehoods or omissions to manipulate others or to cover up their true intentions or actions."));
         wordsList.add(new Word("Subversive", "Adjective", "Seeking or intending to undermine the power, authority, or system in place, often through covert or deceptive means. A subversive individual works behind the scenes to destabilize or disrupt existing norms or authorities to achieve their personal or ideological goals."));
-
-        setRandomWord();
-
-
-        btnCreatePost.setOnClickListener(v -> {
-            Intent intent = new Intent(WordOfTheDayActivity.this, CreatePost.class);
-            startActivity(intent);
-        });
-
-        btnHomePage.setOnClickListener(v->{
-            Intent intent = new Intent(WordOfTheDayActivity.this, HomeActivity.class);
-            startActivity(intent);
-        });
     }
-
 
     private void setRandomWord() {
         Random random = new Random();
         int randomIndex = random.nextInt(wordsList.size());
         Word selectedWord = wordsList.get(randomIndex);
 
-
         tvWord.setText(selectedWord.getWord());
         tvGrammar.setText(selectedWord.getGrammar());
         tvMeaning.setText(selectedWord.getMeaning());
     }
-
 
     static class Word {
         private String word;

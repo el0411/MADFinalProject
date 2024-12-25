@@ -1,10 +1,14 @@
 package com.example.brainhub;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,16 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CreatePost extends AppCompatActivity {
     private EditText titleBar, body;
     private Button postBtn;
-    private ImageButton deleteBtn;
+    private ImageView deleteBtn;
     private TextView username;
+    private ImageView imgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
-
         initializeViews();
         setupClickListeners();
+    }
+
+    private Bitmap decodeBase64ToBitmap(String encodedImage) {
+        byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     private void initializeViews() {
@@ -30,8 +39,17 @@ public class CreatePost extends AppCompatActivity {
         postBtn = findViewById(R.id.postBtn);
         deleteBtn = findViewById(R.id.imageButton);
         username = findViewById(R.id.username);
+        imgView = findViewById(R.id.imageView5);
 
-        username.setText("Current User");
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String currentUser = sharedPreferences.getString("USERNAME", "");
+        username.setText(currentUser);
+
+        String encodedImage = sharedPreferences.getString("USER_PHOTO", null);
+        if (encodedImage != null) {
+            Bitmap photo = decodeBase64ToBitmap(encodedImage);
+            imgView.setImageBitmap(photo);
+        }
     }
 
     private void setupClickListeners() {
@@ -48,18 +66,18 @@ public class CreatePost extends AppCompatActivity {
             resultIntent.putExtra("title", title);
             resultIntent.putExtra("content", content);
             resultIntent.putExtra("username", username.getText().toString());
+            resultIntent.putExtra("timestamp", System.currentTimeMillis());
             setResult(RESULT_OK, resultIntent);
             finish();
         }
     }
 
     private boolean validatePost(String title, String content) {
-        if (title.isEmpty() || title.equals("Title")) {
+        if (title.isEmpty()) {
             showError("Please enter a title");
             return false;
         }
-
-        if (content.isEmpty() || content.equals("Body")) {
+        if (content.isEmpty()) {
             showError("Please enter content");
             return false;
         }
