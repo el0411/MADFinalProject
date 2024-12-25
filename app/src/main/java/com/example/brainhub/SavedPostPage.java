@@ -1,8 +1,8 @@
-// SavedPostPage.java
 package com.example.brainhub;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,28 +12,28 @@ import java.util.ArrayList;
 public class SavedPostPage extends AppCompatActivity {
     private LinearLayout postContainer;
     private ArrayList<Bundle> savedPosts;
+    private LayoutInflater layoutInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_post_page);
 
+        layoutInflater = LayoutInflater.from(this);
         postContainer = findViewById(R.id.post_container);
         loadSavedPosts();
         displaySavedPosts();
     }
 
     private void loadSavedPosts() {
-        // Get saved posts from SharedPreferences or database
         savedPosts = new ArrayList<>();
-        // TODO: Implement actual data persistence
     }
 
     private void displaySavedPosts() {
         postContainer.removeAllViews();
 
         for (Bundle post : savedPosts) {
-            View postView = getLayoutInflater().inflate(R.layout.saved_post_item, null);
+            View postView = layoutInflater.inflate(R.layout.saved_post_item, null);
 
             ImageView profilePic = postView.findViewById(R.id.profile_image);
             TextView username = postView.findViewById(R.id.username);
@@ -49,15 +49,4 @@ public class SavedPostPage extends AppCompatActivity {
             postContainer.addView(postView);
         }
     }
-}
-
-// FeedActivity.java modifications:
-// Add to class fields:
-private ArrayList<Bundle> savedPosts = new ArrayList<>();
-
-// Add method:
-private void savePost(Bundle post) {
-    savedPosts.add(post);
-    // TODO: Implement persistence using SharedPreferences or database
-    // Update SavedPostPage when implemented
 }
