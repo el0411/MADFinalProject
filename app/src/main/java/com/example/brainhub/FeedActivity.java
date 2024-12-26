@@ -197,7 +197,7 @@ public class FeedActivity extends AppCompatActivity {
         Button followButton = new Button(this);
         LinearLayout.LayoutParams followParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                dpToPx(37)
+                dpToPx(30)
         );
         followParams.setMargins(dpToPx(16), 0, dpToPx(16), 0);
         followButton.setLayoutParams(followParams);
@@ -236,8 +236,8 @@ public class FeedActivity extends AppCompatActivity {
 
 
         ImageView saveButton = new ImageView(this);
-        LinearLayout.LayoutParams saveParams = new LinearLayout.LayoutParams(dpToPx(25), dpToPx(25));
-        saveParams.setMargins(0, 0, dpToPx(10), 0);
+        LinearLayout.LayoutParams saveParams = new LinearLayout.LayoutParams(dpToPx(25), dpToPx(20));
+        saveParams.setMargins(0, 0, dpToPx(8), 0);
         saveButton.setLayoutParams(saveParams);
         saveButton.setImageResource(R.drawable.icon_save); // Set the default save icon
         saveButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
