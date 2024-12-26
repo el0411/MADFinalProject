@@ -205,28 +205,86 @@ public class FeedActivity extends AppCompatActivity {
         followButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         followButton.setTextColor(getResources().getColor(R.color.white));
         followButton.setBackgroundResource(R.drawable.rounded_button);
+
         followButton.setOnClickListener(v -> {
-            Toast.makeText(this, username + " followed!", Toast.LENGTH_SHORT).show();
+            if (followButton.getText().toString().equals("Follow")) {
+                // Follow action
+                followButton.setText("Followed");
+                followButton.setTextColor(getResources().getColor(R.color.black));
+                followButton.setBackgroundResource(R.drawable.rounded_followed); // Use the new drawable
+                Toast.makeText(this, username + " followed!", Toast.LENGTH_SHORT).show();
+            } else {
+                // Unfollow confirmation
+                new androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setTitle("Unfollow " + username)
+                        .setMessage("Are you sure you want to unfollow " + username + "?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            // Unfollow action
+                            followButton.setText("Follow");
+                            followButton.setTextColor(getResources().getColor(R.color.white));
+                            followButton.setBackgroundResource(R.drawable.rounded_button); // Reset to default
+                            Toast.makeText(this, "You unfollowed " + username + ".", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> {
+                            // Do nothing, keep "Followed"
+                            dialog.dismiss();
+                        })
+                        .show();
+            }
         });
+
 
 
         ImageView saveButton = new ImageView(this);
         LinearLayout.LayoutParams saveParams = new LinearLayout.LayoutParams(dpToPx(25), dpToPx(25));
         saveParams.setMargins(0, 0, dpToPx(10), 0);
         saveButton.setLayoutParams(saveParams);
-        saveButton.setImageResource(R.drawable.icon_save);
+        saveButton.setImageResource(R.drawable.icon_save); // Set the default save icon
         saveButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+// Track whether the post is saved
+        final boolean[] isSaved = {false};
+
         saveButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Post saved!", Toast.LENGTH_SHORT).show();
+            if (isSaved[0]) {
+                saveButton.clearColorFilter(); // Reset to default color
+                Toast.makeText(this, "Post unsaved!", Toast.LENGTH_SHORT).show();
+                saveButton.setImageResource(R.drawable.icon_save);
+            } else {
+                saveButton.setColorFilter(getResources().getColor(R.color.yellow), android.graphics.PorterDuff.Mode.SRC_IN);
+                saveButton.setImageResource(R.drawable.icon_saved);
+                Toast.makeText(this, "Post saved!", Toast.LENGTH_SHORT).show();
+            }
+            isSaved[0] = !isSaved[0]; // Toggle the saved state
         });
+
 
         ImageView likeButton = new ImageView(this);
         likeButton.setLayoutParams(new LinearLayout.LayoutParams(dpToPx(24), dpToPx(24)));
-        likeButton.setImageResource(R.drawable.icon_like);
+        likeButton.setImageResource(R.drawable.icon_like); // Default PNG icon
         likeButton.setPadding(dpToPx(2), dpToPx(2), dpToPx(2), dpToPx(2));
+
+// Track whether the post is liked
+        final boolean[] isLiked = {false};
+
         likeButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Liked!", Toast.LENGTH_SHORT).show();
+            if (isLiked[0]) {
+                likeButton.setImageResource(R.drawable.icon_like); // Change back to the PNG
+                Toast.makeText(this, "Unliked!", Toast.LENGTH_SHORT).show();
+                likeButton.setColorFilter(getResources().getColor(R.color.black), android.graphics.PorterDuff.Mode.SRC_IN);
+            } else {
+                // Change to the vector drawable and apply the bloody red color dynamically
+                likeButton.setImageResource(R.drawable.icon_liked); // Change to the vector drawable
+
+                // Apply a bloody red color filter to the vector drawable
+                likeButton.setColorFilter(getResources().getColor(R.color.bloody_red), android.graphics.PorterDuff.Mode.SRC_IN);
+
+                Toast.makeText(this, "Liked!", Toast.LENGTH_SHORT).show();
+            }
+            isLiked[0] = !isLiked[0]; // Toggle the liked state
         });
+
+
 
         ImageView shareButton = new ImageView(this);
         LinearLayout.LayoutParams shareParams = new LinearLayout.LayoutParams(dpToPx(24), dpToPx(24));
@@ -235,7 +293,7 @@ public class FeedActivity extends AppCompatActivity {
         shareButton.setImageResource(R.drawable.icon_share);
         shareButton.setPadding(dpToPx(2), dpToPx(2), dpToPx(2), dpToPx(2));
         shareButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Shared!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Post Shared!", Toast.LENGTH_SHORT).show();
         });
 
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
