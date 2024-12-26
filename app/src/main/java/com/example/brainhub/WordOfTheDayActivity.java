@@ -59,6 +59,7 @@ public class WordOfTheDayActivity extends AppCompatActivity {
     private void setupClickListeners() {
         btnCreatePost.setOnClickListener(v -> {
             Intent intent = new Intent(WordOfTheDayActivity.this, CreatePost.class);
+            intent.putExtra("RANDOM_WORD", tvWord.getText().toString());
             createPostLauncher.launch(intent);
         });
 

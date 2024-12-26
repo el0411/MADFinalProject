@@ -41,6 +41,12 @@ public class CreatePost extends AppCompatActivity {
         username = findViewById(R.id.username);
         imgView = findViewById(R.id.imageView5);
 
+        Intent intent = getIntent();
+        String randomWord = intent.getStringExtra("RANDOM_WORD");
+        if (randomWord != null) {
+            titleBar.setText(randomWord);
+        }
+
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String currentUser = sharedPreferences.getString("USERNAME", "");
         username.setText(currentUser);
