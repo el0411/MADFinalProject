@@ -4,17 +4,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.ViewGroup;
+import androidx.cardview.widget.CardView;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 public class FeedActivity extends AppCompatActivity {
     private LinearLayout postsContainer;
@@ -29,7 +34,6 @@ public class FeedActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
         initializeViews();
         setupCreatePostLauncher();
         setupNavigation();
@@ -138,65 +142,100 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     private void addPostToFeed(String username, String title, String content, long timestamp, boolean save) {
-        LinearLayout postView = new LinearLayout(this);
-        postView.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams postParams = new LinearLayout.LayoutParams(
+        CardView cardView = new CardView(this);
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        postParams.setMargins(0, 0, 0, dpToPx(15));
-        postView.setLayoutParams(postParams);
+        cardParams.setMargins(dpToPx(16), dpToPx(8), dpToPx(16), dpToPx(8));
+        cardView.setLayoutParams(cardParams);
+        cardView.setCardElevation(dpToPx(2));
+        cardView.setRadius(dpToPx(12));
 
-        LinearLayout userInfoLayout = new LinearLayout(this);
-        userInfoLayout.setOrientation(LinearLayout.HORIZONTAL);
-        userInfoLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
-        userInfoLayout.setLayoutParams(new LinearLayout.LayoutParams(
+        LinearLayout postView = new LinearLayout(this);
+        postView.setOrientation(LinearLayout.VERTICAL);
+        postView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
+        postView.setPadding(dpToPx(16), dpToPx(12), dpToPx(16), dpToPx(12));
+
+        LinearLayout headerLayout = new LinearLayout(this);
+        headerLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+        headerLayout.setGravity(Gravity.CENTER_VERTICAL);
 
         ImageView profilePic = new ImageView(this);
-        LinearLayout.LayoutParams profilePicParams = new LinearLayout.LayoutParams(dpToPx(40), dpToPx(40));
-        profilePicParams.setMargins(dpToPx(20), 0, 0, 0);
-        profilePic.setLayoutParams(profilePicParams);
+        int profileSize = dpToPx(40);
+        profilePic.setLayoutParams(new LinearLayout.LayoutParams(profileSize, profileSize));
+        profilePic.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        profilePic.setBackgroundResource(android.R.drawable.ic_menu_gallery);
+
+        LinearLayout userInfoLayout = new LinearLayout(this);
+        LinearLayout.LayoutParams userInfoParams = new LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f
+        );
+        userInfoParams.setMargins(dpToPx(12), 0, 0, 0);
+        userInfoLayout.setLayoutParams(userInfoParams);
+        userInfoLayout.setOrientation(LinearLayout.VERTICAL);
 
         TextView usernameView = new TextView(this);
-        LinearLayout.LayoutParams usernameParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        usernameParams.setMargins(dpToPx(10), 0, dpToPx(10), 0);
-        usernameView.setLayoutParams(usernameParams);
         usernameView.setText(username);
+        usernameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        usernameView.setTypeface(null, Typeface.BOLD);
 
         TextView timeView = new TextView(this);
         timeView.setText(getTimeAgo(timestamp));
+        timeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        timeView.setAlpha(0.7f);
 
-        LinearLayout contentContainer = new LinearLayout(this);
-        contentContainer.setOrientation(LinearLayout.VERTICAL);
-        contentContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-
-        TextView titleView = new TextView(this);
-        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+        Button followButton = new Button(this);
+        LinearLayout.LayoutParams followParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                dpToPx(37)
         );
-        titleParams.setMargins(dpToPx(20), dpToPx(5), dpToPx(20), dpToPx(5));
-        titleView.setLayoutParams(titleParams);
-        titleView.setText(title);
-        titleView.setTypeface(null, android.graphics.Typeface.BOLD);
+        followParams.setMargins(dpToPx(16), 0, dpToPx(16), 0);
+        followButton.setLayoutParams(followParams);
+        followButton.setText("Follow");
+        followButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        followButton.setBackgroundColor(getResources().getColor(R.color.black));
+        followButton.setTextColor(getResources().getColor(R.color.white));
+        followButton.setOnClickListener(v -> {
+            Toast.makeText(this, username + " followed!", Toast.LENGTH_SHORT).show();
+        });
 
-        TextView contentView = new TextView(this);
-        LinearLayout.LayoutParams contentParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        contentParams.setMargins(dpToPx(20), 0, dpToPx(20), 0);
-        contentView.setLayoutParams(contentParams);
-        contentView.setText(content);
+        ImageView saveButton = new ImageView(this);
+        LinearLayout.LayoutParams saveParams = new LinearLayout.LayoutParams(dpToPx(25), dpToPx(25));
+        saveParams.setMargins(0, 0, dpToPx(10), 0);
+        saveButton.setLayoutParams(saveParams);
+        saveButton.setImageResource(R.drawable.icon_save);
+        saveButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        saveButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Post saved!", Toast.LENGTH_SHORT).show();
+        });
+
+        ImageView likeButton = new ImageView(this);
+        likeButton.setLayoutParams(new LinearLayout.LayoutParams(dpToPx(24), dpToPx(24)));
+        likeButton.setImageResource(R.drawable.icon_like);
+        likeButton.setPadding(dpToPx(2), dpToPx(2), dpToPx(2), dpToPx(2));
+        likeButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Liked!", Toast.LENGTH_SHORT).show();
+        });
+
+        ImageView shareButton = new ImageView(this);
+        LinearLayout.LayoutParams shareParams = new LinearLayout.LayoutParams(dpToPx(24), dpToPx(24));
+        shareParams.setMargins(dpToPx(16), 0, 0, 0);
+        shareButton.setLayoutParams(shareParams);
+        shareButton.setImageResource(R.drawable.icon_share);
+        shareButton.setPadding(dpToPx(2), dpToPx(2), dpToPx(2), dpToPx(2));
+        shareButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Shared!", Toast.LENGTH_SHORT).show();
+        });
 
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String encodedImage = prefs.getString("USER_PHOTO", null);
@@ -206,21 +245,64 @@ public class FeedActivity extends AppCompatActivity {
             profilePic.setImageBitmap(photo);
         }
 
-        userInfoLayout.addView(profilePic);
         userInfoLayout.addView(usernameView);
         userInfoLayout.addView(timeView);
+
+        headerLayout.addView(profilePic);
+        headerLayout.addView(userInfoLayout);
+        headerLayout.addView(followButton);
+        headerLayout.addView(saveButton);
+
+        LinearLayout contentContainer = new LinearLayout(this);
+        contentContainer.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams contentContainerParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        contentContainerParams.setMargins(0, dpToPx(12), 0, dpToPx(12));
+        contentContainer.setLayoutParams(contentContainerParams);
+
+        TextView titleView = new TextView(this);
+        titleView.setText(title);
+        titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        titleView.setTypeface(null, Typeface.BOLD);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.setMargins(0, 0, 0, dpToPx(4));
+        titleView.setLayoutParams(titleParams);
+
+        TextView contentView = new TextView(this);
+        contentView.setText(content);
+        contentView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
         contentContainer.addView(titleView);
         contentContainer.addView(contentView);
 
-        postView.addView(userInfoLayout);
+        LinearLayout interactionLayout = new LinearLayout(this);
+        interactionLayout.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams interactionParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        interactionParams.setMargins(0, dpToPx(8), 0, 0);
+        interactionLayout.setLayoutParams(interactionParams);
+
+        interactionLayout.addView(likeButton);
+        interactionLayout.addView(shareButton);
+
+        postView.addView(headerLayout);
         postView.addView(contentContainer);
+        postView.addView(interactionLayout);
+
+        cardView.addView(postView);
 
         if (save) {
             savePost(username, title, content, timestamp);
         }
 
-        postsContainer.addView(postView, 0);
+        postsContainer.addView(cardView, 0);
     }
 
     private String getTimeAgo(long timestamp) {
