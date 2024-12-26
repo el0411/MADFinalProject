@@ -88,13 +88,13 @@
         <EditText
             android:id="@+id/body"
             android:layout_width="match_parent"
-            android:layout_height="384dp"
+            android:layout_height="78dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:ems="10"
             android:hint="Body"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:textAlignment="viewStart" />
     </LinearLayout>
 

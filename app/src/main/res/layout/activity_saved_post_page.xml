@@ -18,12 +18,12 @@
         android:textSize="24sp"
         android:layout_margin="16dp" />
 
-    <!-- ScrollView for posts -->
     <ScrollView
         android:id="@+id/scroll_view_posts"
         android:layout_below="@id/title_saved"
+        android:layout_above="@id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/post_container"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- First Post -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- Second Post -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                     android:src="@drawable/bulsu_dresscode" />
             </LinearLayout>
 
-            <!-- Third Post -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation -->
+
     <LinearLayout
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
