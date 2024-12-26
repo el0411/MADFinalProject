@@ -233,8 +233,6 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
-
-
         ImageView saveButton = new ImageView(this);
         LinearLayout.LayoutParams saveParams = new LinearLayout.LayoutParams(dpToPx(25), dpToPx(20));
         saveParams.setMargins(0, 0, dpToPx(8), 0);
