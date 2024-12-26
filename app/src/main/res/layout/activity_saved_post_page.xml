@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".MainActivity"
     android:background="#FFFFFF">
 
     <TextView
@@ -15,21 +18,215 @@
         android:textSize="24sp"
         android:layout_margin="16dp" />
 
+    <!-- ScrollView for posts -->
     <ScrollView
         android:id="@+id/scroll_view_posts"
         android:layout_below="@id/title_saved"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_nav">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/post_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp"/>
+            android:orientation="vertical">
+
+            <!-- First Post -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="#F9F9F9"
+                android:padding="12dp"
+                android:orientation="vertical"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/avatar_user1"
+                        android:contentDescription="User Avatar"
+                        android:layout_marginEnd="8dp"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jeck_jeck"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3h"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sabi nila alam mo daw kung papasa ka, totoo ba to?"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sa mga lawyers na nakausap ko, marami sila nagsasabi na alam mo daw kung papasa ka. Mararamdaman mo daw yan."
+                    android:textColor="#000000"
+                    android:layout_marginTop="4dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Second Post -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="#F9F9F9"
+                android:padding="12dp"
+                android:orientation="vertical"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/avatar_user2"
+                        android:contentDescription="User Avatar"
+                        android:layout_marginEnd="8dp"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Abigil"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5h"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BULSU Dress Code"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="174dp"
+                    android:layout_height="200dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="BULSU Dress Code"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bulsu_dresscode" />
+            </LinearLayout>
+
+            <!-- Third Post -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="#F9F9F9"
+                android:padding="12dp"
+                android:orientation="vertical"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/avatar_user3"
+                        android:contentDescription="User Avatar"
+                        android:layout_marginEnd="8dp"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sheldon Cooper"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2d"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Why is the sky blue?"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="The sky appears blue because of a phenomenon called Rayleigh scattering."
+                    android:textColor="#000000"
+                    android:layout_marginTop="4dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
+    <!-- Bottom Navigation -->
     <LinearLayout
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
@@ -38,46 +235,67 @@
         android:background="#FFFFFF"
         android:orientation="horizontal"
         android:weightSum="5"
-        android:elevation="8dp">
+        android:gravity="center">
 
         <ImageView
-            android:id="@+id/nav_home"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="12dp"
-            android:src="@android:drawable/ic_menu_home"/>
+            android:src="@drawable/icon_home"
+            android:contentDescription="Home"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp" />
 
         <ImageView
-            android:id="@+id/nav_saved"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="12dp"
-            android:src="@android:drawable/ic_menu_save"/>
+            android:src="@drawable/icon_saved"
+            android:contentDescription="Saved"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp" />
 
         <ImageView
-            android:id="@+id/nav_create"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="12dp"
-            android:src="@android:drawable/ic_menu_edit"/>
+            android:src="@drawable/icon_create"
+            android:contentDescription="Create"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp" />
 
         <ImageView
-            android:id="@+id/nav_notifications"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="12dp"
-            android:src="@android:drawable/ic_popup_reminder"/>
+            android:src="@drawable/icon_notifications"
+            android:contentDescription="Notifications"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp" />
 
         <ImageView
-            android:id="@+id/nav_profile"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="12dp"
-            android:src="@android:drawable/ic_menu_myplaces"/>
+            android:src="@drawable/icon_profile"
+            android:contentDescription="Profile"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp" />
     </LinearLayout>
+
 </RelativeLayout>
