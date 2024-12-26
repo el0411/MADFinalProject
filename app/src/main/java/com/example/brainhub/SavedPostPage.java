@@ -14,15 +14,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class SavedPostPage extends AppCompatActivity {
     private LinearLayout postContainer;
     private ArrayList<Bundle> savedPosts;
     private LayoutInflater layoutInflater;
     private SharedPreferences prefs;
+    private ActivityResultLauncher<Intent> createPostLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,34 +36,50 @@ public class SavedPostPage extends AppCompatActivity {
         layoutInflater = LayoutInflater.from(this);
         postContainer = findViewById(R.id.post_container);
         prefs = getSharedPreferences("SavedPostsPrefs", MODE_PRIVATE);
+        savedPosts = new ArrayList<>();
 
+        setupCreatePostLauncher();
         setupNavigation();
+        handleIncomingPost();
         loadSavedPosts();
         displaySavedPosts();
     }
 
-    private void loadSavedPosts() {
-        savedPosts = new ArrayList<>();
-
-        // Load existing saved posts from SharedPreferences
-        Set<String> savedPostIds = prefs.getStringSet("saved_post_ids", new HashSet<>());
-
-        // Retrieve the new saved post passed from the FeedActivity
+    private void handleIncomingPost() {
         Bundle newSavedPost = getIntent().getBundleExtra("savedPost");
         if (newSavedPost != null) {
-            String postId = newSavedPost.getString("postId");
-            if (postId != null && !savedPostIds.contains(postId)) {
-                savedPosts.add(newSavedPost);
+            // Generate a unique ID for the post if it doesn't have one
+            String postId = newSavedPost.getString("postId", UUID.randomUUID().toString());
+            newSavedPost.putString("postId", postId);
 
-                // Update SharedPreferences with new post
+            Set<String> savedPostIds = new HashSet<>(prefs.getStringSet("saved_post_ids", new HashSet<>()));
+            if (!savedPostIds.contains(postId)) {
                 savedPostIds.add(postId);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putStringSet("saved_post_ids", savedPostIds);
+                savePostToPrefs(postId, newSavedPost);
                 editor.apply();
             }
         }
+    }
 
-        // Load all saved posts from SharedPreferences
+    private void savePostToPrefs(String postId, Bundle post) {
+        SharedPreferences.Editor editor = prefs.edit();
+        String prefix = "post_" + postId + "_";
+
+        editor.putString(prefix + "username", post.getString("username"));
+        editor.putString(prefix + "title", post.getString("title"));
+        editor.putString(prefix + "content", post.getString("content"));
+        editor.putString(prefix + "timestamp", post.getString("timestamp"));
+        editor.putString(prefix + "profile_picture", post.getString("profile_picture", ""));
+
+        editor.apply();
+    }
+
+    private void loadSavedPosts() {
+        savedPosts.clear();
+        Set<String> savedPostIds = prefs.getStringSet("saved_post_ids", new HashSet<>());
+
         for (String postId : savedPostIds) {
             Bundle post = loadPostFromPrefs(postId);
             if (post != null) {
@@ -69,7 +89,6 @@ public class SavedPostPage extends AppCompatActivity {
     }
 
     private Bundle loadPostFromPrefs(String postId) {
-        Bundle post = new Bundle();
         String prefix = "post_" + postId + "_";
 
         String username = prefs.getString(prefix + "username", "");
@@ -79,6 +98,7 @@ public class SavedPostPage extends AppCompatActivity {
         String profilePicture = prefs.getString(prefix + "profile_picture", "");
 
         if (!username.isEmpty()) {
+            Bundle post = new Bundle();
             post.putString("postId", postId);
             post.putString("username", username);
             post.putString("title", title);
@@ -93,47 +113,98 @@ public class SavedPostPage extends AppCompatActivity {
     private void displaySavedPosts() {
         postContainer.removeAllViews();
 
+        if (savedPosts.isEmpty()) {
+            displayEmptyState();
+            return;
+        }
+
         for (Bundle post : savedPosts) {
-            View postView = layoutInflater.inflate(R.layout.saved_post_item, null);
-
-            ImageView profilePic = postView.findViewById(R.id.profile_image);
-            TextView username = postView.findViewById(R.id.username);
-            TextView timestamp = postView.findViewById(R.id.timestamp);
-            TextView title = postView.findViewById(R.id.post_title);
-            TextView content = postView.findViewById(R.id.post_content);
-            Button unsaveButton = postView.findViewById(R.id.unsave_button);
-
-            // Set profile picture
-            String encodedImage = post.getString("profile_picture");
-            if (encodedImage != null && !encodedImage.isEmpty()) {
-                Bitmap profileBitmap = decodeBase64ToBitmap(encodedImage);
-                if (profileBitmap != null) {
-                    profilePic.setImageBitmap(profileBitmap);
-                }
-            }
-
-            username.setText(post.getString("username", "Anonymous"));
-            timestamp.setText(post.getString("timestamp", ""));
-            title.setText(post.getString("title", ""));
-            content.setText(post.getString("content", ""));
-
-            // Setup unsave button
-            final String postId = post.getString("postId");
-            unsaveButton.setOnClickListener(v -> unsavePost(postId));
-
+            View postView = createPostView(post);
             postContainer.addView(postView);
         }
     }
 
+    private View createPostView(Bundle post) {
+        View postView = layoutInflater.inflate(R.layout.saved_post_item, null);
+
+        ImageView profilePic = postView.findViewById(R.id.profile_image);
+        TextView username = postView.findViewById(R.id.username);
+        TextView timestamp = postView.findViewById(R.id.timestamp);
+        TextView title = postView.findViewById(R.id.post_title);
+        TextView content = postView.findViewById(R.id.post_content);
+        Button unsaveButton = postView.findViewById(R.id.unsave_button);
+
+        String encodedImage = post.getString("profile_picture");
+        if (encodedImage != null && !encodedImage.isEmpty()) {
+            Bitmap profileBitmap = decodeBase64ToBitmap(encodedImage);
+            if (profileBitmap != null) {
+                profilePic.setImageBitmap(profileBitmap);
+            }
+        }
+
+        username.setText(post.getString("username", "Anonymous"));
+        timestamp.setText(post.getString("timestamp", ""));
+        title.setText(post.getString("title", ""));
+        content.setText(post.getString("content", ""));
+
+        final String postId = post.getString("postId");
+        unsaveButton.setOnClickListener(v -> unsavePost(postId));
+
+        return postView;
+    }
+
+    private void displayEmptyState() {
+        TextView emptyStateText = new TextView(this);
+        emptyStateText.setText("No saved posts yet");
+        emptyStateText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        emptyStateText.setPadding(0, 50, 0, 0);
+        postContainer.addView(emptyStateText);
+    }
+
+    private void setupNavigation() {
+        ImageView homeBtn = findViewById(R.id.home_button);
+        ImageView savedBtn = findViewById(R.id.saved_button);
+        ImageView createBtn = findViewById(R.id.create_button);
+        ImageView notificationsBtn = findViewById(R.id.notifications_button);
+        ImageView profileBtn = findViewById(R.id.profile_button);
+
+        homeBtn.setOnClickListener(v -> navigateToHome());
+        savedBtn.setOnClickListener(v -> Toast.makeText(this, "You are already in Saved Posts", Toast.LENGTH_SHORT).show());
+        createBtn.setOnClickListener(v -> navigateToCreate());
+        notificationsBtn.setOnClickListener(v -> navigateToNotifications());
+        profileBtn.setOnClickListener(v -> navigateToProfile());
+    }
+
+    private void navigateToHome() {
+        Intent intent = new Intent(this, FeedActivity.class); // Changed from HomeActivity to FeedActivity
+        startActivity(intent);
+        finish();
+    }
+
+    private void navigateToCreate() {
+        Intent intent = new Intent(this, CreatePost.class);
+        createPostLauncher.launch(intent);
+    }
+
+    private void navigateToNotifications() {
+        Intent intent = new Intent(this, Notifications.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void navigateToProfile() {
+        Intent intent = new Intent(this, Profile.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void unsavePost(String postId) {
-        // Remove from SharedPreferences
         Set<String> savedPostIds = new HashSet<>(prefs.getStringSet("saved_post_ids", new HashSet<>()));
         savedPostIds.remove(postId);
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putStringSet("saved_post_ids", savedPostIds);
 
-        // Remove post details
         String prefix = "post_" + postId + "_";
         editor.remove(prefix + "username");
         editor.remove(prefix + "title");
@@ -142,7 +213,6 @@ public class SavedPostPage extends AppCompatActivity {
         editor.remove(prefix + "profile_picture");
         editor.apply();
 
-        // Remove from current list and refresh UI
         savedPosts.removeIf(post -> postId.equals(post.getString("postId")));
         displaySavedPosts();
 
@@ -159,18 +229,15 @@ public class SavedPostPage extends AppCompatActivity {
         }
     }
 
-    private void setupNavigation() {
-        ImageView homeBtn = findViewById(R.id.home_button);
-        ImageView savedBtn = findViewById(R.id.saved_button);
-        ImageView createBtn = findViewById(R.id.create_button);
-        ImageView notificationsBtn = findViewById(R.id.notifications_button);
-        ImageView profileBtn = findViewById(R.id.profile_button);
-
-        homeBtn.setOnClickListener(v -> startActivity(new Intent(this, HomeActivity.class)));
-        savedBtn.setOnClickListener(v ->
-                Toast.makeText(this, "You are already in Saved Posts", Toast.LENGTH_SHORT).show());
-        createBtn.setOnClickListener(v -> startActivity(new Intent(this, CreatePost.class)));
-        notificationsBtn.setOnClickListener(v -> startActivity(new Intent(this, Notifications.class)));
-        profileBtn.setOnClickListener(v -> startActivity(new Intent(this, Profile.class)));
+    private void setupCreatePostLauncher() {
+        createPostLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        loadSavedPosts();
+                        displaySavedPosts();
+                    }
+                }
+        );
     }
 }
