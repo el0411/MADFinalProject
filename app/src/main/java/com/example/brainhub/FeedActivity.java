@@ -204,7 +204,7 @@ public class FeedActivity extends AppCompatActivity {
         followButton.setText("Follow");
         followButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         followButton.setTextColor(getResources().getColor(R.color.white));
-        followButton.setBackgroundResource(R.drawable.rounded_button); // Use a drawable resource for rounded corners
+        followButton.setBackgroundResource(R.drawable.rounded_button);
         followButton.setOnClickListener(v -> {
             Toast.makeText(this, username + " followed!", Toast.LENGTH_SHORT).show();
         });
