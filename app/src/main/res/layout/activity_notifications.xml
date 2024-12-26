@@ -38,7 +38,85 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:padding="16dp"
-        android:scrollbars="vertical"></LinearLayout>
+        android:scrollbars="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <ImageView
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="Home"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_home" />
+
+        <ImageView
+            android:id="@+id/navSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="Saved"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_saved" />
+
+        <ImageView
+            android:id="@+id/navPost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="Create"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_create" />
+
+        <ImageView
+            android:id="@+id/navNotif"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="Notifications"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_notifications" />
+
+        <ImageView
+            android:id="@+id/navProf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="Profile"
+            android:maxWidth="30dp"
+            android:maxHeight="30dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_profile" />
+    </LinearLayout>
 </LinearLayout>
 
 
