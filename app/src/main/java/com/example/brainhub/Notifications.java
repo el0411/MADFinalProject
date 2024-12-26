@@ -1,13 +1,14 @@
 package com.example.brainhub;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +24,30 @@ public class Notifications extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
         notificationsContainer = findViewById(R.id.notificationsContainer);
 
+        // Setup navigation
+        setupNavigation();
+
+        // Load notifications
         loadNotifications();
+    }
+
+    private void setupNavigation() {
+        // Get the bottom navigation icons
+        ImageView homeBtn = findViewById(R.id.notif_home_button);
+        ImageView savedBtn = findViewById(R.id.notif_saved_button);
+        ImageView createBtn = findViewById(R.id.notif_create_button);
+        ImageView notificationsBtn = findViewById(R.id.notif_notifications_button);
+        ImageView profileBtn = findViewById(R.id.notif_profile_button);
+
+        // Set onClick listeners for each icon
+        homeBtn.setOnClickListener(view -> navigateToHome());
+        savedBtn.setOnClickListener(view -> navigateToSavedPosts());
+        createBtn.setOnClickListener(view -> navigateToCreatePost());
+        notificationsBtn.setOnClickListener(view -> {
+            // Prevent navigating to current screen (Notifications)
+            Toast.makeText(this, "You are already in Notifications", Toast.LENGTH_SHORT).show();
+        });
+        profileBtn.setOnClickListener(view -> navigateToProfile());
     }
 
     private void loadNotifications() {
@@ -66,7 +90,6 @@ public class Notifications extends AppCompatActivity {
                     String timeCategory = getTimeCategory(timestamp);
                     TextView notification = createNotificationView(username, timestamp);
 
-
                     if ("Today".equals(timeCategory)) {
                         todayContainer.addView(notification);
                     } else {
@@ -74,7 +97,6 @@ public class Notifications extends AppCompatActivity {
                     }
                 }
             }
-
 
             notificationsContainer.addView(todayContainer);
             notificationsContainer.addView(earlierContainer);
@@ -123,5 +145,25 @@ public class Notifications extends AppCompatActivity {
                 dp,
                 getResources().getDisplayMetrics()
         );
+    }
+
+    private void navigateToHome() {
+        Intent intent = new Intent(Notifications.this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToSavedPosts() {
+        Intent intent = new Intent(Notifications.this, SavedPostPage.class);
+        startActivity(intent);
+    }
+
+    private void navigateToCreatePost() {
+        Intent intent = new Intent(Notifications.this, CreatePost.class);
+        startActivity(intent);
+    }
+
+    private void navigateToProfile() {
+        Intent intent = new Intent(Notifications.this, Profile.class);
+        startActivity(intent);
     }
 }

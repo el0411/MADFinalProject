@@ -53,7 +53,7 @@
         android:weightSum="5">
 
         <ImageView
-            android:id="@+id/navHome"
+            android:id="@+id/notif_home_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -66,7 +66,7 @@
             android:src="@drawable/icon_home" />
 
         <ImageView
-            android:id="@+id/navSave"
+            android:id="@+id/notif_saved_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -79,7 +79,7 @@
             android:src="@drawable/icon_saved" />
 
         <ImageView
-            android:id="@+id/navPost"
+            android:id="@+id/notif_create_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -92,7 +92,7 @@
             android:src="@drawable/icon_create" />
 
         <ImageView
-            android:id="@+id/navNotif"
+            android:id="@+id/notif_notifications_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -105,7 +105,7 @@
             android:src="@drawable/icon_notifications" />
 
         <ImageView
-            android:id="@+id/navProf"
+            android:id="@+id/notif_profile_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
