@@ -254,9 +254,22 @@ public class FeedActivity extends AppCompatActivity {
                 saveButton.setColorFilter(getResources().getColor(R.color.yellow), android.graphics.PorterDuff.Mode.SRC_IN);
                 saveButton.setImageResource(R.drawable.icon_saved);
                 Toast.makeText(this, "Post saved!", Toast.LENGTH_SHORT).show();
+
+                // Save post details when clicked
+                Bundle postBundle = new Bundle();
+                postBundle.putString("title", title); // Post title
+                postBundle.putString("content", content); // Post content
+                postBundle.putString("username", username); // Post username
+                postBundle.putString("timestamp", getTimeAgo(timestamp)); // Post timestamp
+
+                // Pass the post to the SavedPostPage
+                Intent intent = new Intent(this, SavedPostPage.class);
+                intent.putExtra("savedPost", postBundle);
+                startActivity(intent);
             }
             isSaved[0] = !isSaved[0]; // Toggle the saved state
         });
+
 
 
         ImageView likeButton = new ImageView(this);

@@ -1,8 +1,8 @@
 package com.example.brainhub;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,11 +27,18 @@ public class SavedPostPage extends AppCompatActivity {
 
     private void loadSavedPosts() {
         savedPosts = new ArrayList<>();
+
+        // Retrieve the saved post passed from the FeedActivity
+        Bundle savedPost = getIntent().getBundleExtra("savedPost");
+        if (savedPost != null) {
+            savedPosts.add(savedPost); // Add the saved post to the list
+        }
     }
 
     private void displaySavedPosts() {
         postContainer.removeAllViews();
 
+        // Display each saved post in the container
         for (Bundle post : savedPosts) {
             View postView = layoutInflater.inflate(R.layout.saved_post_item, null);
 
