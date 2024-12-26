@@ -203,11 +203,12 @@ public class FeedActivity extends AppCompatActivity {
         followButton.setLayoutParams(followParams);
         followButton.setText("Follow");
         followButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        followButton.setBackgroundColor(getResources().getColor(R.color.black));
         followButton.setTextColor(getResources().getColor(R.color.white));
+        followButton.setBackgroundResource(R.drawable.rounded_button); // Use a drawable resource for rounded corners
         followButton.setOnClickListener(v -> {
             Toast.makeText(this, username + " followed!", Toast.LENGTH_SHORT).show();
         });
+
 
         ImageView saveButton = new ImageView(this);
         LinearLayout.LayoutParams saveParams = new LinearLayout.LayoutParams(dpToPx(25), dpToPx(25));
